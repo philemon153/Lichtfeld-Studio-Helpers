@@ -22,27 +22,30 @@ cd vcpkg && call bootstrap-vcpkg.bat -disableMetrics && cd..
 
 if exist "LichtFeld-Studio" rmdir "LichtFeld-Studio" /S /Q
 git clone https://github.com/MrNeRF/LichtFeld-Studio
+
 cd LichtFeld-Studio
-REM default is v0.2.1
-git checkout v0.2.1
+git checkout v0.3.0
 REM for the latest dev branch use:
 REM git checkout -b dev origin/dev
 
-@echo off
-if not exist external mkdir external
-if not exist external\debug mkdir external\debug
-if not exist external\release mkdir external\release
-@echo on
+REM for the latest master branch use:
+REM git checkout -b master origin/master
 
-setlocal
-start "" /wait curl -# -L -o libtorch-debug.zip "https://download.pytorch.org/libtorch/cu128/libtorch-win-shared-with-deps-debug-2.7.0%%2Bcu128.zip"
-tar -xf libtorch-debug.zip -C external\debug
-del libtorch-debug.zip
+REM @echo off
+REM if not exist external mkdir external
+REM if not exist external\debug mkdir external\debug
+REM if not exist external\release mkdir external\release
+REM @echo on
 
-start "" /wait curl -# -L -o libtorch-release.zip "https://download.pytorch.org/libtorch/cu128/libtorch-win-shared-with-deps-2.7.0%%2Bcu128.zip"
-tar -xf libtorch-release.zip -C external\release
-del libtorch-release.zip
-endlocal
+REM setlocal
+REM start "" /wait curl -# -L -o libtorch-debug.zip "https://download.pytorch.org/libtorch/cu128/libtorch-win-shared-with-deps-debug-2.7.0%%2Bcu128.zip"
+REM tar -xf libtorch-debug.zip -C external\debug
+REM del libtorch-debug.zip
+
+REM start "" /wait curl -# -L -o libtorch-release.zip "https://download.pytorch.org/libtorch/cu128/libtorch-win-shared-with-deps-2.7.0%%2Bcu128.zip"
+REM tar -xf libtorch-release.zip -C external\release
+REM del libtorch-release.zip
+REM endlocal
 
 cmake -B build -DCMAKE_BUILD_TYPE=Release -G Ninja -DCMAKE_TOOLCHAIN_FILE="../vcpkg/scripts/buildsystems/vcpkg.cmake"
 cmake --build build -j
